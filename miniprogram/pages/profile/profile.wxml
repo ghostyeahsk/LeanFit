@@ -1,0 +1,91 @@
+<view class="page-container" wx:if="{{profile}}">
+  <!-- 顶部成就与同步状态 -->
+  <view class="card streak-card">
+    <view class="flex-between" style="margin-bottom: 20rpx;">
+      <view>
+        <text class="profile-stage">{{profile.metrics.stageLabel}}计划中</text>
+        <text class="profile-sub">目标：低体脂宽肩薄肌 · {{sceneLabel}}</text>
+      </view>
+      <view class="sync-badge {{cloudReady ? 'sync-online' : ''}}" bindtap="onManualSync">
+        {{cloudReady ? '云同步已开启' : '本地模式'}}
+      </view>
+    </view>
+
+    <view class="streak-grid">
+      <view class="streak-item">
+        <text class="streak-num mono text-accent">{{streakStats.currentStreak}}</text>
+        <text class="streak-label">当前连续(天)</text>
+      </view>
+      <view class="streak-item">
+        <text class="streak-num mono">{{streakStats.longestStreak}}</text>
+        <text class="streak-label">最长连击(天)</text>
+      </view>
+      <view class="streak-item">
+        <text class="streak-num mono">{{streakStats.totalCheckinDays}}</text>
+        <text class="streak-label">累计打卡(天)</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- GitHub 风格打卡热力图组件 -->
+  <checkin-heatmap checkins-map="{{checkinsMap}}" weeks-count="26" />
+
+  <!-- 今日体重记录（借鉴 RepLoop） -->
+  <view class="card">
+    <view class="card-header">
+      <text class="card-title">体重变化记录</text>
+      <text class="card-subtitle">追踪减脂/精瘦增肌趋势</text>
+    </view>
+    <view class="weight-form">
+      <input
+        class="weight-input mono"
+        type="digit"
+        value="{{weightInput}}"
+        placeholder="输入今日体重 (kg)"
+        bindinput="onWeightInputChange"
+      />
+      <view class="weight-btn" bindtap="onLogWeight">记录体重</view>
+    </view>
+
+    <view class="weight-list" wx:if="{{weightLogs.length > 0}}">
+      <view class="weight-row" wx:for="{{weightLogs}}" wx:key="date">
+        <text class="w-date mono">{{item.date}}</text>
+        <text class="w-val mono">{{item.weightKg}} kg</text>
+        <text class="w-bmi mono">BMI {{item.bmi}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 身体指标与训练时间段 -->
+  <view class="card">
+    <view class="card-header">
+      <text class="card-title">我的薄肌档案</text>
+      <text class="edit-link" bindtap="onEditProfile">编辑档案 ›</text>
+    </view>
+
+    <view class="info-grid">
+      <view class="info-cell">
+        <text class="info-label">身高 / 体重</text>
+        <text class="info-val mono">{{profile.heightCm}}cm / {{profile.weightKg}}kg</text>
+      </view>
+      <view class="info-cell">
+        <text class="info-label">BMI 指数</text>
+        <text class="info-val mono">{{profile.metrics.bmi}}</text>
+      </view>
+      <view class="info-cell">
+        <text class="info-label">基础代谢 BMR</text>
+        <text class="info-val mono">{{profile.metrics.bmr}} kcal</text>
+      </view>
+      <view class="info-cell">
+        <text class="info-label">日常消耗 TDEE</text>
+        <text class="info-val mono">{{profile.metrics.tdee}} kcal</text>
+      </view>
+      <view class="info-cell info-cell-wide">
+        <text class="info-label">每日可锻炼时间段</text>
+        <text class="info-val mono text-accent">{{profile.workoutStartTime}} - {{profile.workoutEndTime}}（约 {{profile.durationMin}} 分钟）</text>
+      </view>
+    </view>
+  </view>
+
+  <button class="btn-secondary" bindtap="onEditProfile">修改身高、体重、锻炼时段或训练场景</button>
+</view>

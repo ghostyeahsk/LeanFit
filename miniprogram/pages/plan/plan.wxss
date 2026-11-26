@@ -1,0 +1,189 @@
+.plan-kicker {
+  display: block;
+  font-size: 21rpx;
+  color: #C8FF00;
+  font-weight: 600;
+}
+
+.plan-stage {
+  display: block;
+  margin-top: 6rpx;
+  font-size: 32rpx;
+  font-weight: 800;
+  color: #F3F6FA;
+}
+
+.scene-switch {
+  display: flex;
+  gap: 12rpx;
+  margin-top: 22rpx;
+}
+
+.scene-pill {
+  flex: 1;
+  text-align: center;
+  padding: 14rpx 0;
+  border-radius: 14rpx;
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #9AA4B2;
+  background-color: #1E2533;
+  border: 2rpx solid transparent;
+}
+
+.scene-pill-active {
+  color: #0E1117;
+  background-color: #C8FF00;
+}
+
+.week-strip {
+  display: flex;
+  justify-content: space-between;
+  gap: 10rpx;
+  margin-bottom: 24rpx;
+}
+
+.day-pill {
+  flex: 1;
+  background-color: #171C26;
+  border: 2rpx solid rgba(255, 255, 255, 0.06);
+  border-radius: 18rpx;
+  padding: 16rpx 4rpx;
+  text-align: center;
+}
+
+.day-pill-today {
+  border-color: rgba(200, 255, 0, 0.45);
+}
+
+.day-pill-active {
+  background-color: #C8FF00;
+  border-color: #C8FF00;
+}
+
+.day-pill-name {
+  display: block;
+  font-size: 22rpx;
+  font-weight: 600;
+  color: #9AA4B2;
+}
+
+.day-pill-dot {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  font-weight: 800;
+  color: #F3F6FA;
+}
+
+.day-pill-active .day-pill-name,
+.day-pill-active .day-pill-dot {
+  color: #0E1117;
+}
+
+.detail-day-title {
+  font-size: 32rpx;
+  font-weight: 800;
+  color: #F3F6FA;
+}
+
+.detail-day-focus {
+  display: block;
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  color: #9AA4B2;
+}
+
+.detail-stats {
+  display: flex;
+  gap: 12rpx;
+  margin-top: 18rpx;
+}
+
+.stat-chip {
+  font-size: 22rpx;
+  color: #D2DAE6;
+  background-color: #1E2533;
+  padding: 8rpx 16rpx;
+  border-radius: 10rpx;
+}
+
+.plan-ex-card {
+  padding: 24rpx;
+}
+
+.ex-index {
+  width: 52rpx;
+  height: 52rpx;
+  line-height: 52rpx;
+  text-align: center;
+  border-radius: 14rpx;
+  background-color: rgba(200, 255, 0, 0.14);
+  color: #C8FF00;
+  font-size: 24rpx;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.ex-name {
+  display: block;
+  font-size: 29rpx;
+  font-weight: 700;
+  color: #F3F6FA;
+}
+
+.ex-muscle {
+  display: block;
+  font-size: 22rpx;
+  color: #9AA4B2;
+  margin-top: 2rpx;
+}
+
+.ex-prescription {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.ex-sets {
+  display: block;
+  font-size: 25rpx;
+  font-weight: 700;
+  color: #00E5A0;
+}
+
+.ex-rest {
+  display: block;
+  font-size: 21rpx;
+  color: #7D8590;
+  margin-top: 2rpx;
+}
+
+.ex-tips {
+  display: block;
+  margin-top: 16rpx;
+  padding-top: 14rpx;
+  border-top: 1rpx solid rgba(255, 255, 255, 0.06);
+  font-size: 23rpx;
+  color: #B4BECB;
+  line-height: 1.5;
+}
+
+.rest-box {
+  padding: 40rpx 28rpx;
+  text-align: center;
+}
+
+.rest-box-title {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #F3F6FA;
+}
+
+.rest-box-desc {
+  display: block;
+  margin-top: 12rpx;
+  font-size: 24rpx;
+  color: #9AA4B2;
+  line-height: 1.6;
+}

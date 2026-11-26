@@ -1,0 +1,16 @@
+<view class="timer-bar" wx:if="{{visible}}">
+  <view class="timer-progress-bg">
+    <view class="timer-progress-fill" style="width: {{progressPercent}}%;"></view>
+  </view>
+  <view class="timer-content">
+    <view class="timer-left">
+      <text class="timer-label">组间休息 · {{exerciseName || '准备下一组'}}</text>
+      <text class="timer-clock mono">{{formattedTime}}</text>
+    </view>
+    <view class="timer-actions">
+      <view class="timer-btn" data-sec="15" bindtap="onAddTime">+15s</view>
+      <view class="timer-btn" data-sec="30" bindtap="onAddTime">+30s</view>
+      <view class="timer-btn timer-skip" bindtap="onSkip">跳过</view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,84 @@
+<view class="page-container" wx:if="{{profile && selectedPlan}}">
+  <!-- 顶部阶段与场景快速切换 -->
+  <view class="card">
+    <view class="flex-between">
+      <view>
+        <text class="plan-kicker">每周 5 练 1 恢复 1 休 · 薄肌黄金分化</text>
+        <text class="plan-stage">{{profile.metrics.stageLabel}} · {{profile.workoutStartTime}}-{{profile.workoutEndTime}}</text>
+      </view>
+    </view>
+
+    <view class="scene-switch">
+      <view
+        wx:for="{{sceneTabs}}"
+        wx:key="key"
+        class="scene-pill {{profile.scene === item.key ? 'scene-pill-active' : ''}}"
+        data-scene="{{item.key}}"
+        bindtap="onSwitchScene"
+      >
+        {{item.label}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 周一至周日横向选择条 -->
+  <view class="week-strip">
+    <view
+      wx:for="{{weekSplit}}"
+      wx:key="dayOfWeek"
+      class="day-pill {{selectedDayOfWeek === item.dayOfWeek ? 'day-pill-active' : ''}} {{todayDayOfWeek === item.dayOfWeek ? 'day-pill-today' : ''}}"
+      data-day="{{item.dayOfWeek}}"
+      bindtap="onSelectDay"
+    >
+      <text class="day-pill-name">{{item.shortLabel}}</text>
+      <text class="day-pill-dot">{{item.isRest ? '休' : (item.isRecovery ? '伸' : '练')}}</text>
+    </view>
+  </view>
+
+  <!-- 选中日详情卡片 -->
+  <view class="card detail-header-card">
+    <view class="flex-between">
+      <text class="detail-day-title">{{selectedPlan.shortLabel}} · {{selectedPlan.title}}</text>
+      <text class="badge badge-accent" wx:if="{{todayDayOfWeek === selectedPlan.dayOfWeek}}">今日</text>
+    </view>
+    <text class="detail-day-focus">{{selectedPlan.focus}}</text>
+    <view class="detail-stats" wx:if="{{!selectedPlan.isRest}}">
+      <text class="stat-chip mono">{{selectedPlan.exercises.length}} 个动作</text>
+      <text class="stat-chip mono">共 {{selectedPlan.totalSets}} 组</text>
+      <text class="stat-chip mono">约 {{selectedPlan.estimatedMin}} 分钟</text>
+    </view>
+  </view>
+
+  <!-- 动作列表或休息说明 -->
+  <view class="card rest-box" wx:if="{{selectedPlan.isRest}}">
+    <text class="rest-box-title">完全休息与睡眠修复日</text>
+    <text class="rest-box-desc">高强度分化训练需要完整的修复窗口。保持高蛋白摄入、多喝水（2.5L+）并保证 7.5 小时睡眠。</text>
+  </view>
+
+  <view wx:else>
+    <view class="card plan-ex-card" wx:for="{{selectedPlan.exercises}}" wx:key="id" wx:for-index="idx">
+      <view class="flex-between">
+        <view class="flex-row" style="gap: 14rpx;">
+          <text class="ex-index mono">0{{idx + 1}}</text>
+          <view>
+            <text class="ex-name">{{item.name}}</text>
+            <text class="ex-muscle">{{item.muscleGroup}}</text>
+          </view>
+        </view>
+        <view class="ex-prescription">
+          <text class="ex-sets mono">{{item.sets}}组 × {{item.reps}}</text>
+          <text class="ex-rest mono">休 {{item.restSec}}s</text>
+        </view>
+      </view>
+      <text class="ex-tips">{{item.tips}}</text>
+    </view>
+
+    <button
+      class="btn-primary"
+      wx:if="{{todayDayOfWeek === selectedPlan.dayOfWeek}}"
+      bindtap="onGoToday"
+    >
+      开始今日跟练打卡
+    </button>
+  </view>
+</view>

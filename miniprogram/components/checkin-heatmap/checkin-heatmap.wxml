@@ -1,0 +1,84 @@
+<view class="heatmap-card">
+  <view class="heatmap-header">
+    <view>
+      <text class="heatmap-title">薄肌打卡热力图</text>
+      <text class="heatmap-sub">近 {{weeksCount}} 周累计活跃 {{totalActiveDays}} 天 · 完美薄肌日 {{totalPerfectDays}} 天</text>
+    </view>
+  </view>
+
+  <view class="heatmap-body">
+    <!-- 左侧固定星期轴（复刻 GitHub Mon / Wed / Fri） -->
+    <view class="weekday-axis">
+      <text class="axis-month-spacer"></text>
+      <text class="axis-label"></text>
+      <text class="axis-label">Mon</text>
+      <text class="axis-label"></text>
+      <text class="axis-label">Wed</text>
+      <text class="axis-label"></text>
+      <text class="axis-label">Fri</text>
+      <text class="axis-label"></text>
+    </view>
+
+    <!-- 右侧横向滚动周网格 -->
+    <scroll-view
+      class="heatmap-scroll"
+      scroll-x="true"
+      scroll-into-view="{{scrollIntoId}}"
+      enhanced="true"
+      show-scrollbar="false"
+    >
+      <view class="weeks-row">
+        <view
+          class="week-col"
+          wx:for="{{weeks}}"
+          wx:key="weekIndex"
+          id="week-{{item.weekIndex}}"
+        >
+          <view class="month-label">{{item.monthLabel}}</view>
+          <view
+            class="day-cell level-{{day.isFuture ? 'future' : day.level}} {{day.isToday ? 'is-today' : ''}} {{selectedDay && selectedDay.date === day.date ? 'is-selected' : ''}}"
+            wx:for="{{item.days}}"
+            wx:for-item="day"
+            wx:for-index="dayIdx"
+            wx:key="date"
+            data-week-idx="{{item.weekIndex}}"
+            data-day-idx="{{dayIdx}}"
+            bindtap="onSelectCell"
+          ></view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 底部图例（Less □ 🟩 ... More） -->
+  <view class="heatmap-footer">
+    <text class="legend-hint">点击方块查看当日详情</text>
+    <view class="legend-scale">
+      <text class="legend-text">Less</text>
+      <view class="legend-cell level-0"></view>
+      <view class="legend-cell level-1"></view>
+      <view class="legend-cell level-2"></view>
+      <view class="legend-cell level-3"></view>
+      <view class="legend-cell level-4"></view>
+      <text class="legend-text">More</text>
+    </view>
+  </view>
+
+  <!-- 选中日期详情栏 -->
+  <view class="detail-box" wx:if="{{selectedDay}}">
+    <view class="detail-top">
+      <text class="detail-date mono">{{selectedDay.date}}{{selectedDay.isToday ? ' (今天)' : ''}}</text>
+      <text class="detail-level level-text-{{selectedDay.level}}">{{selectedLevelText}}</text>
+    </view>
+    <view class="detail-metrics" wx:if="{{selectedDay.record}}">
+      <text class="detail-chip" wx:if="{{selectedDay.record.dayTitle}}">{{selectedDay.record.dayTitle}}</text>
+      <text class="detail-chip mono">完成 {{selectedDay.record.completedSets || 0}}/{{selectedDay.record.totalSets || 0}} 组</text>
+      <text class="detail-chip mono" wx:if="{{selectedDay.record.caloriesBurned}}">消耗 {{selectedDay.record.caloriesBurned}} kcal</text>
+      <text class="detail-chip mono">饮食 {{selectedDay.record.completedMeals ? selectedDay.record.completedMeals.length : 0}}/4 餐</text>
+      <text class="detail-chip" wx:if="{{selectedDay.record.rpe}}">强度 RPE {{selectedDay.record.rpe}}/5</text>
+    </view>
+    <view class="detail-empty" wx:else>
+      当日暂无训练或饮食打卡记录
+    </view>
+  </view>
+</view>

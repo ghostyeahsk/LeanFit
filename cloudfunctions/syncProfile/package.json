@@ -1,0 +1,9 @@
+{
+  "name": "syncProfile",
+  "version": "1.0.0",
+  "description": "同步用户薄肌档案、周计划与打卡记录",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

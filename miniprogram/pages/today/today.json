@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "今日薄肌任务",
+  "usingComponents": {
+    "rest-timer": "../../components/rest-timer/rest-timer"
+  }
+}

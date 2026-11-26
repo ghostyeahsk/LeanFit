@@ -1,0 +1,42 @@
+{
+  "pages": [
+    "pages/today/today",
+    "pages/onboarding/onboarding",
+    "pages/plan/plan",
+    "pages/diet/diet",
+    "pages/profile/profile"
+  ],
+  "window": {
+    "backgroundColor": "#0E1117",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#0E1117",
+    "navigationBarTitleText": "LeanFit 薄肌计划",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "color": "#7D8590",
+    "selectedColor": "#C8FF00",
+    "backgroundColor": "#12161F",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/today/today",
+        "text": "今日"
+      },
+      {
+        "pagePath": "pages/plan/plan",
+        "text": "周计划"
+      },
+      {
+        "pagePath": "pages/diet/diet",
+        "text": "健身餐"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

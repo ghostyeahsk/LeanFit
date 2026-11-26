@@ -1,0 +1,165 @@
+<view class="page-container {{timerVisible ? 'has-timer' : ''}}" wx:if="{{todayPlan}}">
+  <!-- 顶部今日概览卡片 -->
+  <view class="card hero-card">
+    <view class="flex-between">
+      <view>
+        <text class="today-meta mono">{{todayKey}} · {{todayPlan.shortLabel}} · 连续 {{streakDays}} 天</text>
+        <text class="today-title">{{todayPlan.title}}</text>
+      </view>
+      <view class="screen-pill {{keepScreenOn ? 'pill-active' : ''}}" bindtap="onToggleScreenOn">
+        {{keepScreenOn ? '常亮中' : '防息屏'}}
+      </view>
+    </view>
+
+    <text class="today-focus">{{todayPlan.focus}}</text>
+
+    <!-- 用户设定的锻炼时间段提醒条 -->
+    <view class="slot-banner">
+      <view class="slot-left">
+        <text class="slot-tag">每日锻炼时段</text>
+        <text class="slot-time mono">{{profile.workoutStartTime}} - {{profile.workoutEndTime}}</text>
+      </view>
+      <view class="slot-right">
+        <text class="badge badge-accent">{{todayPlan.sceneLabel}}</text>
+      </view>
+    </view>
+
+    <!-- 进度条与核心数据 -->
+    <view class="progress-section" wx:if="{{!todayPlan.isRest}}">
+      <view class="flex-between">
+        <text class="progress-text">完成进度 <text class="mono text-accent">{{completedSets}}/{{totalSets}}</text> 组</text>
+        <text class="progress-text mono">约消耗 {{caloriesBurned}} kcal · {{todayPlan.estimatedMin}} min</text>
+      </view>
+      <view class="progress-track">
+        <view class="progress-fill" style="width: {{progressPercent}}%;"></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 休息日视图 -->
+  <view class="card rest-card" wx:if="{{todayPlan.isRest}}">
+    <text class="rest-emoji">🔋</text>
+    <text class="rest-title">今天是完全恢复日</text>
+    <text class="rest-desc">肌肉在训练时撕裂，在充足睡眠与高蛋白营养中生长。今天建议保证 7.5 小时睡眠，按低碳高蛋白食谱进食。</text>
+    <button class="btn-primary rest-btn" bindtap="onCompleteRestDay">
+      {{workoutCompleted ? '已完成今日恢复打卡 ✓' : '打卡今日主动恢复'}}
+    </button>
+    <button class="btn-secondary" style="margin-top: 16rpx;" bindtap="onGoDiet">查看今日休息日健身餐</button>
+  </view>
+
+  <!-- 训练动作任务清单 -->
+  <view class="task-list" wx:else>
+    <view class="section-header">
+      <text class="section-title">今日训练任务 ({{exerciseTasks.length}} 个动作)</text>
+      <text class="section-hint">点击勾选每组 · 自动触发组间计时</text>
+    </view>
+
+    <view
+      class="card exercise-card {{item.doneCount === item.setList.length ? 'exercise-done' : ''}}"
+      wx:for="{{exerciseTasks}}"
+      wx:key="id"
+      wx:for-index="exIdx"
+    >
+      <view class="exercise-head" data-index="{{exIdx}}" bindtap="onToggleExpand">
+        <view class="exercise-info">
+          <view class="flex-row" style="gap: 12rpx;">
+            <text class="exercise-name">{{item.name}}</text>
+            <text class="badge badge-success" wx:if="{{item.doneCount === item.setList.length}}">已完成</text>
+          </view>
+          <text class="exercise-meta">{{item.muscleGroup}} · {{item.sets}}组 × {{item.reps}} · 休 {{item.restSec}}s</text>
+        </view>
+        <view class="exercise-right">
+          <text class="done-counter mono">{{item.doneCount}}/{{item.setList.length}}</text>
+          <text class="expand-arrow">{{item.expanded ? '收起' : '展开'}}</text>
+        </view>
+      </view>
+
+      <!-- 展开区：动作要点 + 逐组负重/次数记录表 -->
+      <view class="exercise-body" wx:if="{{item.expanded}}">
+        <view class="tips-box">
+          <text class="tips-label">薄肌要点：</text>
+          <text class="tips-text">{{item.tips}}</text>
+        </view>
+
+        <view class="set-table-header">
+          <text class="col-set">组次</text>
+          <text class="col-weight">负重(kg)</text>
+          <text class="col-reps">目标/实做</text>
+          <text class="col-check">打卡</text>
+        </view>
+
+        <view
+          class="set-row {{setItem.done ? 'set-row-done' : ''}}"
+          wx:for="{{item.setList}}"
+          wx:for-item="setItem"
+          wx:for-index="setIdx"
+          wx:key="setIndex"
+        >
+          <text class="col-set mono">#{{setIdx + 1}}</text>
+          <view class="col-weight">
+            <input
+              class="set-input mono"
+              type="digit"
+              value="{{setItem.weight}}"
+              placeholder="自重"
+              data-ex-idx="{{exIdx}}"
+              data-set-idx="{{setIdx}}"
+              bindblur="onWeightInput"
+            />
+          </view>
+          <view class="col-reps">
+            <input
+              class="set-input"
+              type="text"
+              value="{{setItem.reps}}"
+              data-ex-idx="{{exIdx}}"
+              data-set-idx="{{setIdx}}"
+              bindblur="onRepsInput"
+            />
+          </view>
+          <view class="col-check">
+            <view
+              class="check-btn {{setItem.done ? 'check-btn-done' : ''}}"
+              data-ex-idx="{{exIdx}}"
+              data-set-idx="{{setIdx}}"
+              bindtap="onToggleSet"
+            >
+              {{setItem.done ? '✓' : ''}}
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 练后主观 RPE 难度感受（借鉴 RepLoop） -->
+    <view class="card rpe-card">
+      <view class="card-header">
+        <text class="card-title">今日训练体感 (RPE)</text>
+        <text class="badge badge-muted">{{rpe ? 'RPE ' + rpe + '/5' : '练后可选记录'}}</text>
+      </view>
+      <view class="rpe-grid">
+        <view
+          wx:for="{{rpeOptions}}"
+          wx:key="value"
+          class="rpe-item {{rpe === item.value ? 'rpe-active' : ''}}"
+          data-val="{{item.value}}"
+          bindtap="onSelectRpe"
+        >
+          <text class="rpe-num mono">{{item.value}}</text>
+          <text class="rpe-label">{{item.label}}</text>
+        </view>
+      </view>
+    </view>
+
+    <button class="btn-secondary" bindtap="onGoDiet">练完吃什么？去打卡今日健身餐 →</button>
+  </view>
+
+  <!-- 组间休息倒计时浮条 -->
+  <rest-timer
+    visible="{{timerVisible}}"
+    seconds="{{timerSeconds}}"
+    exercise-name="{{timerExerciseName}}"
+    bind:close="onTimerClose"
+    bind:finish="onTimerClose"
+  />
+</view>

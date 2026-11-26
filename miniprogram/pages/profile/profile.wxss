@@ -1,0 +1,158 @@
+.streak-card {
+  background: linear-gradient(155deg, #1B2332 0%, #141923 100%);
+  border-color: rgba(200, 255, 0, 0.22);
+}
+
+.profile-stage {
+  display: block;
+  font-size: 34rpx;
+  font-weight: 800;
+  color: #F3F6FA;
+}
+
+.profile-sub {
+  display: block;
+  margin-top: 6rpx;
+  font-size: 22rpx;
+  color: #9AA4B2;
+}
+
+.sync-badge {
+  padding: 8rpx 18rpx;
+  border-radius: 999rpx;
+  font-size: 21rpx;
+  font-weight: 600;
+  color: #9AA4B2;
+  background-color: #222B3B;
+}
+
+.sync-online {
+  color: #00E5A0;
+  background-color: rgba(0, 229, 160, 0.14);
+}
+
+.streak-grid {
+  display: flex;
+  justify-content: space-between;
+  background-color: rgba(255, 255, 255, 0.04);
+  border-radius: 18rpx;
+  padding: 20rpx 12rpx;
+}
+
+.streak-item {
+  flex: 1;
+  text-align: center;
+}
+
+.streak-num {
+  display: block;
+  font-size: 44rpx;
+  font-weight: 800;
+  color: #F3F6FA;
+}
+
+.streak-label {
+  display: block;
+  margin-top: 4rpx;
+  font-size: 21rpx;
+  color: #9AA4B2;
+}
+
+.weight-form {
+  display: flex;
+  gap: 14rpx;
+  align-items: center;
+}
+
+.weight-input {
+  flex: 1;
+  height: 76rpx;
+  background-color: #12161F;
+  border: 1rpx solid rgba(255, 255, 255, 0.08);
+  border-radius: 14rpx;
+  padding: 0 20rpx;
+  font-size: 28rpx;
+  color: #F3F6FA;
+}
+
+.weight-btn {
+  height: 76rpx;
+  line-height: 76rpx;
+  padding: 0 28rpx;
+  border-radius: 14rpx;
+  background-color: #C8FF00;
+  color: #0E1117;
+  font-size: 25rpx;
+  font-weight: 700;
+}
+
+.weight-list {
+  margin-top: 20rpx;
+  border-top: 1rpx solid rgba(255, 255, 255, 0.06);
+  padding-top: 12rpx;
+}
+
+.weight-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12rpx 4rpx;
+  border-bottom: 1rpx solid rgba(255, 255, 255, 0.04);
+}
+
+.weight-row:last-child {
+  border-bottom: none;
+}
+
+.w-date {
+  font-size: 23rpx;
+  color: #9AA4B2;
+}
+
+.w-val {
+  font-size: 26rpx;
+  font-weight: 700;
+  color: #F3F6FA;
+}
+
+.w-bmi {
+  font-size: 22rpx;
+  color: #00E5A0;
+}
+
+.edit-link {
+  font-size: 24rpx;
+  color: #C8FF00;
+  font-weight: 600;
+}
+
+.info-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14rpx;
+}
+
+.info-cell {
+  width: calc(50% - 7rpx);
+  background-color: #1E2533;
+  border-radius: 16rpx;
+  padding: 18rpx 20rpx;
+}
+
+.info-cell-wide {
+  width: 100%;
+}
+
+.info-label {
+  display: block;
+  font-size: 21rpx;
+  color: #9AA4B2;
+}
+
+.info-val {
+  display: block;
+  margin-top: 6rpx;
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #F3F6FA;
+}

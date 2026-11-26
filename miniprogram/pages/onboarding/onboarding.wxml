@@ -1,0 +1,138 @@
+<view class="page-container">
+  <view class="hero">
+    <text class="hero-tag">LEANFIT · 男性薄肌定制</text>
+    <text class="hero-title">{{isEditMode ? '调整身体档案与训练时间' : '穿衣显瘦，脱衣有肉'}}</text>
+    <text class="hero-desc">填写你的基础身体数据与每日空闲时段，系统将为你生成专属薄肌周计划与每日健身餐。</text>
+  </view>
+
+  <!-- 身高体重与年龄 -->
+  <view class="card">
+    <view class="card-header">
+      <text class="card-title">1. 基础身体数据</text>
+      <text class="badge badge-accent">男性专属公式</text>
+    </view>
+
+    <view class="slider-group">
+      <view class="flex-between">
+        <text class="field-label">身高</text>
+        <text class="field-value mono">{{heightCm}} <text class="unit">cm</text></text>
+      </view>
+      <slider
+        min="155"
+        max="205"
+        value="{{heightCm}}"
+        activeColor="#C8FF00"
+        backgroundColor="#262E3E"
+        block-color="#C8FF00"
+        block-size="22"
+        bindchanging="onHeightChanging"
+        bindchange="onHeightChanging"
+      />
+    </view>
+
+    <view class="slider-group">
+      <view class="flex-between">
+        <text class="field-label">体重</text>
+        <text class="field-value mono">{{weightKg}} <text class="unit">kg</text></text>
+      </view>
+      <slider
+        min="45"
+        max="120"
+        value="{{weightKg}}"
+        activeColor="#C8FF00"
+        backgroundColor="#262E3E"
+        block-color="#C8FF00"
+        block-size="22"
+        bindchanging="onWeightChanging"
+        bindchange="onWeightChanging"
+      />
+    </view>
+
+    <view class="age-row">
+      <text class="field-label">年龄（用于精准估算基础代谢）</text>
+      <view class="age-input-wrap">
+        <input
+          class="age-input mono"
+          type="number"
+          value="{{age}}"
+          maxlength="2"
+          bindinput="onAgeInput"
+        />
+        <text class="unit">岁</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 每日可锻炼时间段 -->
+  <view class="card">
+    <view class="card-header">
+      <text class="card-title">2. 每日可锻炼时间段</text>
+      <text class="badge badge-muted mono">约 {{durationMin}} 分钟/次</text>
+    </view>
+    <view class="time-slot-row">
+      <picker mode="time" value="{{workoutStartTime}}" bindchange="onStartTimeChange" class="time-picker">
+        <view class="time-box">
+          <text class="time-box-label">开始时间</text>
+          <text class="time-box-val mono">{{workoutStartTime}}</text>
+        </view>
+      </picker>
+      <text class="time-sep">—</text>
+      <picker mode="time" value="{{workoutEndTime}}" bindchange="onEndTimeChange" class="time-picker">
+        <view class="time-box">
+          <text class="time-box-label">结束时间</text>
+          <text class="time-box-val mono">{{workoutEndTime}}</text>
+        </view>
+      </picker>
+    </view>
+    <text class="slot-hint">系统会根据你的可用时长自动控制每日动作组数，确保准点练完不拖堂。</text>
+  </view>
+
+  <!-- 训练场景 -->
+  <view class="card">
+    <view class="card-header">
+      <text class="card-title">3. 选择训练场景</text>
+    </view>
+    <view class="scene-list">
+      <view
+        wx:for="{{sceneOptions}}"
+        wx:key="key"
+        class="scene-item {{scene === item.key ? 'scene-active' : ''}}"
+        data-scene="{{item.key}}"
+        bindtap="onSelectScene"
+      >
+        <view class="flex-between">
+          <text class="scene-title">{{item.title}}</text>
+          <text class="scene-check">{{scene === item.key ? '已选 ✓' : '选择'}}</text>
+        </view>
+        <text class="scene-desc">{{item.desc}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 实时薄肌评估预览 -->
+  <view class="card preview-card" wx:if="{{previewMetrics}}">
+    <view class="card-header">
+      <text class="card-title">薄肌评估预览</text>
+      <text class="badge badge-success">{{previewMetrics.stageLabel}}</text>
+    </view>
+    <view class="metrics-grid">
+      <view class="metric-item">
+        <text class="metric-val mono">{{previewMetrics.bmi}}</text>
+        <text class="metric-label">BMI 指数</text>
+      </view>
+      <view class="metric-item">
+        <text class="metric-val mono">{{previewMetrics.targetCalories}}</text>
+        <text class="metric-label">训练日 kcal</text>
+      </view>
+      <view class="metric-item">
+        <text class="metric-val mono">{{previewMetrics.macros.proteinG}}g</text>
+        <text class="metric-label">每日蛋白质</text>
+      </view>
+    </view>
+    <text class="stage-desc">{{previewMetrics.stageDesc}}</text>
+  </view>
+
+  <button class="btn-primary submit-btn" bindtap="onSubmit">
+    {{isEditMode ? '保存修改并刷新计划' : '生成我的薄肌计划'}}
+  </button>
+</view>

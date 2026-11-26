@@ -1,0 +1,101 @@
+<view class="page-container" wx:if="{{dietPlan}}">
+  <!-- 顶部营养素仪表盘 -->
+  <view class="card dashboard-card">
+    <view class="flex-between">
+      <view>
+        <text class="diet-badge">{{dietPlan.dayTypeLabel}}</text>
+        <view class="kcal-row">
+          <text class="kcal-val mono">{{consumed.calories}}</text>
+          <text class="kcal-target mono"> / {{dietPlan.targetCalories}} kcal</text>
+        </view>
+      </view>
+      <view class="switch-type-btn" bindtap="onToggleDayType">
+        切换{{isTrainingDay ? '休息日' : '训练日'}}
+      </view>
+    </view>
+
+    <view class="kcal-bar-track">
+      <view class="kcal-bar-fill" style="width: {{macroPercents.calories}}%;"></view>
+    </view>
+
+    <view class="macro-grid">
+      <view class="macro-col">
+        <view class="flex-between">
+          <text class="macro-name">蛋白质</text>
+          <text class="macro-val mono">{{consumed.proteinG}}/{{dietPlan.targetMacros.proteinG}}g</text>
+        </view>
+        <view class="macro-track">
+          <view class="macro-fill fill-protein" style="width: {{macroPercents.protein}}%;"></view>
+        </view>
+      </view>
+
+      <view class="macro-col">
+        <view class="flex-between">
+          <text class="macro-name">碳水</text>
+          <text class="macro-val mono">{{consumed.carbsG}}/{{dietPlan.targetMacros.carbsG}}g</text>
+        </view>
+        <view class="macro-track">
+          <view class="macro-fill fill-carbs" style="width: {{macroPercents.carbs}}%;"></view>
+        </view>
+      </view>
+
+      <view class="macro-col">
+        <view class="flex-between">
+          <text class="macro-name">优质脂肪</text>
+          <text class="macro-val mono">{{consumed.fatG}}/{{dietPlan.targetMacros.fatG}}g</text>
+        </view>
+        <view class="macro-track">
+          <view class="macro-fill fill-fat" style="width: {{macroPercents.fat}}%;"></view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 每日四餐食谱列表 -->
+  <view class="meal-card card {{item.eaten ? 'meal-eaten' : ''}}" wx:for="{{dietPlan.meals}}" wx:key="slotKey">
+    <view class="flex-between meal-head">
+      <view>
+        <view class="flex-row" style="gap: 12rpx;">
+          <text class="meal-slot">{{item.slotTitle}}</text>
+          <text class="badge badge-muted">{{item.tag}}</text>
+        </view>
+        <text class="meal-time">{{item.timeHint}} · 约 {{item.calories}} kcal</text>
+      </view>
+      <view class="meal-actions">
+        <view
+          class="swap-btn"
+          data-slot-key="{{item.slotKey}}"
+          data-current-idx="{{item.templateIndex}}"
+          data-count="{{item.templateCount}}"
+          bindtap="onSwapMeal"
+        >
+          换一换
+        </view>
+        <view
+          class="eat-btn {{item.eaten ? 'eat-btn-done' : ''}}"
+          data-slot-key="{{item.slotKey}}"
+          bindtap="onToggleMealDone"
+        >
+          {{item.eaten ? '已吃 ✓' : '打卡'}}
+        </view>
+      </view>
+    </view>
+
+    <text class="meal-name">{{item.name}}</text>
+
+    <view class="macro-chips mono">
+      <text class="m-chip">蛋白 {{item.proteinG}}g</text>
+      <text class="m-chip">碳水 {{item.carbsG}}g</text>
+      <text class="m-chip">脂肪 {{item.fatG}}g</text>
+    </view>
+
+    <view class="ingredients-box">
+      <view class="ing-row" wx:for="{{item.items}}" wx:for-item="ing" wx:key="name">
+        <text class="ing-name">{{ing.name}}</text>
+        <text class="ing-amount mono">{{ing.amount}} {{ing.unit}}</text>
+      </view>
+    </view>
+
+    <text class="prep-tip">小贴士：{{item.prepTip}}</text>
+  </view>
+</view>

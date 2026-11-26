@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "我的薄肌档案",
+  "usingComponents": {
+    "checkin-heatmap": "../../components/checkin-heatmap/checkin-heatmap"
+  }
+}
